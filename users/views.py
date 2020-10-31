@@ -1,23 +1,21 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout as do_logout
 from django.contrib.auth import authenticate
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as do_login
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from users.forms import AuthenticationFormExtended
+from users.forms import UserCreationFormExtended
 
+@login_required
 def home(request):
-    # If loged in return home
-    if request.user.is_authenticated:
-        return render(request, "home.html")
-    # Redirect to login if not loged in
-    return redirect('/login')
+    return render(request, "home.html")
 
 def register(request):
     # Create the register form
-    form = UserCreationForm()
+    form = UserCreationFormExtended()
     if request.method == "POST":
         # Add the data received in post
-        form = UserCreationForm(data=request.POST)
+        form = UserCreationFormExtended(data=request.POST)
         # Validate
         if form.is_valid():
 
@@ -29,17 +27,17 @@ def register(request):
                 # Login
                 do_login(request, user)
                 # Redirect
-                return redirect('/')
+                return redirect(home)
 
     # If not post render register
     return render(request, "register.html", {'form': form})
 
 def login(request):
     # Create empty login form
-    LoginForm = AuthenticationForm()
+    form = AuthenticationFormExtended()
     if request.method == "POST":
         # Add the data received in post
-        form = AuthenticationForm(data=request.POST)
+        form = AuthenticationFormExtended(data=request.POST)
         # If valid form
         if form.is_valid():
             # Retrieve credentials
@@ -54,13 +52,13 @@ def login(request):
                 # Login
                 do_login(request, user)
                 # Go Home
-                return redirect('/')
+                return redirect(home)
 
     # If not post render the login form
-    return render(request, "login.html", {'form': LoginForm})
+    return render(request, "login.html", {'form': form})
 
 def logout(request):
     # End the session
     do_logout(request)
     # Redirect to root
-    return redirect('/')
+    return redirect(login)
