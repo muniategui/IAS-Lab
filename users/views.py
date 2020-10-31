@@ -5,6 +5,8 @@ from django.contrib.auth import login as do_login
 from django.contrib.auth.decorators import login_required
 from users.forms import AuthenticationFormExtended
 from users.forms import UserCreationFormExtended
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
 
 @login_required
 def home(request):
@@ -37,7 +39,7 @@ def login(request):
     form = AuthenticationFormExtended()
     if request.method == "POST":
         # Add the data received in post
-        form = AuthenticationFormExtended(data=request.POST)
+        form = AuthenticationFormExtended(request=request,data=request.POST)
         # If valid form
         if form.is_valid():
             # Retrieve credentials
@@ -45,7 +47,7 @@ def login(request):
             password = form.cleaned_data['password']
 
             # Verify user
-            user = authenticate(username=username, password=password)
+            user = authenticate(request=request,username=username, password=password)
 
             # If user exists
             if user is not None:
