@@ -27,7 +27,7 @@ def register(request):
             # If user created correctly
             if user is not None:
                 # Login
-                do_login(request, user)
+                do_login(request, user, backend='axes.backends.AxesBackend')
                 # Redirect
                 return redirect(home)
 
@@ -52,7 +52,7 @@ def login(request):
             # If user exists
             if user is not None:
                 # Login
-                do_login(request, user)
+                do_login(request, user, backend='axes.backends.AxesBackend')
                 # Go Home
                 return redirect(home)
 

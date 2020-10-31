@@ -1,3 +1,17 @@
+from django.contrib.auth.models import AbstractUser
+import uuid
 from django.db import models
 
-# Create your models here.
+class User(AbstractUser):
+    email = models.EmailField(max_length=256,blank=False)
+    uuidNormal = models.UUIDField(primary_key=False, default=uuid.uuid4, editable=False, unique=True)
+    uuidAdmin = models.UUIDField(primary_key=False, default=uuid.uuid4, editable=False, unique=True)
+    invite = models.UUIDField('Invite',primary_key=False, null=True,blank=False)
+    uploader = models.BooleanField(primary_key=False,default=True)
+
+    def save(self, *args, **kwargs):
+        if (User.objects.filter(uuidNormal=self.invite).exists()):
+            self.uploader=False
+        elif (User.objects.filter(uuidAdmin=self.invite).exists()):
+            self.uploader = True
+        super(User, self).save(*args, **kwargs)

@@ -14,7 +14,7 @@ class AuthenticationFormExtended(AuthenticationForm):
         fields = ["username", "password"]
 class UserCreationFormExtended(UserCreationForm):
     captcha = CaptchaField()
-    email2 = forms.EmailField(label='Email Confirmation')
+    email2 = forms.EmailField(label='Email confirmation')
     invite = forms.CharField(max_length=256)
     class Meta:
         model = User
