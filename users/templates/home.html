@@ -15,8 +15,7 @@
 </head>
 <body>
     <h2>Home</h2>
-    {{ form.as_p }}
-    {% csrf_token %}
+
     <p>
         Hi <b>{{request.user.username}}</b>,
         You are loged in
