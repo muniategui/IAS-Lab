@@ -164,5 +164,5 @@ $ git push
 ```
 Errors? Use:
 ```
-$git reset --hard
+$ git reset --hard
 ```
