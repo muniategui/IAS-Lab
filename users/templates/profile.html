@@ -11,19 +11,29 @@
 {#<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>#}
 {#<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>#}
 {#<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>#}
-    <title>Home</title>
+    <title>Profile</title>
 </head>
 <body>
-    <a href="/profile">Profile</a>
-    <h2>Home</h2>
+
+    <h2>Profile</h2>
 
     <p>
-        Hi <b>{{request.user.username}}</b>,
-        You are loged in
+        Hi <b>{{request.user.username}}</b> <br />
+        This is your information: <br />
+        {% if request.user.uploader or request.user.is_superuser %}
+        You are an uploader, uploading and downloading books is allowed for you!<br />
+        {%  else %}
+        You are not an uploader but you still can download books!<br />
+        {%  endif %}
+        Invite users with: {{ request.user.uuidNormal }}<br />
+        {% if request.user.uploader or request.user.is_superuser%}
+        Invite users with upload permission with: {{ request.user.uuidAdmin }}<br />
+        {% endif %}
+        You were invited by: {% if invitedBy %}{{ invitedBy.username }}{% else %} Noone (Created directly by admin) {% endif %}<br />
     </p>
     
     <hr />
-    <a href="/logout">Logout</a>
+    <a href="/">Home</a>
 </body>
 </html>
 

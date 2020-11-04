@@ -7,6 +7,8 @@ from users.forms import AuthenticationFormExtended
 from users.forms import UserCreationFormExtended
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
+from users.models import User
+from django.db.models import Q
 
 @login_required
 def home(request):
@@ -64,3 +66,9 @@ def logout(request):
     do_logout(request)
     # Redirect to root
     return redirect(login)
+
+@login_required
+def profile(request):
+    print(request.user)
+    invitedBy = User.objects.filter(Q(uuidNormal=request.user.invite) | Q(uuidAdmin =request.user.invite)).first()
+    return render(request, "profile.html",{'invitedBy':invitedBy})
