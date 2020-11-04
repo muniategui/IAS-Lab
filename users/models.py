@@ -10,8 +10,8 @@ class User(AbstractUser):
     uploader = models.BooleanField(primary_key=False,default=True)
 
     def save(self, *args, **kwargs):
-        if (User.objects.filter(uuidAdmin=self.invite).exists()):
-            self.uploader = True
+        if (User.objects.filter(uuidNormal=self.invite).exists()):
+            self.uploader = False
 
         while(User.objects.filter(uuidNormal=self.uuidAdmin).exists() or User.objects.filter(uuidAdmin=self.uuidNormal).exists()):
             self.uuidAdmin = uuid.uuid4()

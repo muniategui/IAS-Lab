@@ -16,10 +16,11 @@
 <body>
     <h2>Upload</h2>
 
-    <p>
-        Hi <b>{{request.user.username}}</b>,
-        You are loged in
-    </p>
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.as_p }}
+        {% csrf_token %}
+            <button type="submit">Upload</button>
+    </form>
     
     <hr />
     <a href="/">Home</a>

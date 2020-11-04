@@ -1,6 +1,11 @@
 from django.db import models
 
 class Book(models.Model):
-    Title = models.CharField(max_length=512, blank=False)
-    last_name = models.CharField(max_length=50)
-    instrument = models.CharField(max_length=100)
+    title = models.CharField(max_length=512)
+    author = models.CharField(max_length=512, blank=True)
+    isbn10 = models.CharField(max_length=10, blank=True)
+    isbn13 = models.CharField(max_length=13, blank=True)
+    year = models.IntegerField(blank=True,null=True)
+    pages = models.IntegerField(blank=True,null=True)
+    language = models.CharField(max_length=64,blank=True)
+    file = models.FileField(upload_to='Books/')
