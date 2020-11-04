@@ -143,3 +143,26 @@ $ python manage.py runserver
 - [ ] Content encryption
 - [x] CAPTCHA
 - [x] Bruteforce prevention at login
+
+# For noob developers (we have some)
+Get ready your user settings:
+```
+$ git config --global user.name "USERNAME"
+$ git config --global user.email "MAIL"
+```
+To make changes to one file do:
+```
+$ git pull
+$ git commit FILENAME -m "MESSAGE"
+$ git push
+```
+Multifile:
+```
+$ git pull
+$ git commit * -m "MESSAGE"
+$ git push
+```
+Errors? Use:
+```
+$git reset --hard
+```
