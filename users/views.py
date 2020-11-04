@@ -10,6 +10,8 @@ from django.contrib.auth.forms import UserCreationForm
 from users.models import User
 from django.db.models import Q
 from books.views import home
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 def register(request):
     # Create the register form
@@ -66,6 +68,11 @@ def logout(request):
 
 @login_required
 def profile(request):
-    print(request.user)
+    form = PasswordChangeForm(request.user)
+    if request.method == "POST":
+        form = PasswordChangeForm(request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
     invitedBy = User.objects.filter(Q(uuidNormal=request.user.invite) | Q(uuidAdmin =request.user.invite)).first()
-    return render(request, "profile.html",{'invitedBy':invitedBy})
+    return render(request, "profile.html",{'invitedBy':invitedBy, 'form':form})

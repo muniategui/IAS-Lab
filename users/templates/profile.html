@@ -30,6 +30,11 @@
         Invite users with upload permission with: {{ request.user.uuidAdmin }}<br />
         {% endif %}
         You were invited by: {% if invitedBy %}{{ invitedBy.username }}{% else %} Noone (Created directly by admin) {% endif %}<br />
+        <form method="POST">
+        {{ form.as_p }}
+        {% csrf_token %}
+            <button type="submit">Change Password</button>
+        </form>
     </p>
     
     <hr />
