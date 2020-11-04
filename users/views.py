@@ -9,10 +9,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
 from users.models import User
 from django.db.models import Q
-
-@login_required
-def home(request):
-    return render(request, "home.html")
+from books.views import home
 
 def register(request):
     # Create the register form
