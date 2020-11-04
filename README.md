@@ -11,7 +11,7 @@ Implementation of a website with *security by design* for the laboratory project
   - [Register](#Register)
   - [Home](#Home)
   - [Upload](#Upload)
-  - [User profile](#Profile)
+  - [User profile](#User-profile)
   - [Other details](#Other-details)
 - [Install](#Install)
 - [Interesting URLs](#Interesting-URLs)
