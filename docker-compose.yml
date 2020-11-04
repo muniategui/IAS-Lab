@@ -1,0 +1,16 @@
+version: "3.8"
+   
+services:
+  database:
+    image: mongo
+    environment:
+      - MONGO_INITDB_DATABASE=iaslas
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+  web:
+    build: .
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"    
+    ports:
+      - "8000:8000"
+
+
