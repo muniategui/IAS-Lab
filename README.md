@@ -91,6 +91,20 @@ All the fields (in Registration, Upload and Login) will be serialized to avoid c
 
 The web server and database will be dockered in order to deploy it more easily. A VPS will be used in the deployment. The machine is hosted by Digital Ocean.
 
+# Proposed Modifications
+
+Modifications proposed in last laboratory class that will be added to the final version of the project (along with the original missing ones).
+
+## DDoS Protection
+
+We will use the DDoS Cloudfare mitigation to be protected against this kind of attacks. This will allow us to be always up and running and offering a reliable service.
+
+## Malicious users graph
+
+All new users register in the system with an invitation code that belongs to an existing user. Then, we can model the relation between users with a directed graph showing who invited who.
+
+This allows us to have a clear view of the status of our platform and to apply extra security measures. For example, we can detect that a user is inviting users that behave incorrectly or that always end up banned. After detecting this, we can revoke the invitation key of that user.
+
 # Install
 To start running the server we reccomend the following steps:
 1. Create a **virtual environment** 
