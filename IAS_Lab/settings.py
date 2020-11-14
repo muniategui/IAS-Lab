@@ -150,4 +150,5 @@ AXES_LOCKOUT_TEMPLATE = 'locked.html'
 
 AUTH_USER_MODEL = 'users.User'
 
+MEDIA_URL = '/Files/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'Files')

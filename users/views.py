@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import logout as do_logout
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as do_login
@@ -55,7 +55,7 @@ def login(request):
                 # Login
                 do_login(request, user, backend='axes.backends.AxesBackend')
                 # Go Home
-                return redirect(home)
+                return redirect(request.GET.get("next", reverse(home)))
 
     # If not post render the login form
     return render(request, "login.html", {'form': form})

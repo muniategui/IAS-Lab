@@ -22,6 +22,31 @@
         Hi <b>{{request.user.username}}</b>,
         You are loged in
     </p>
+    <table>
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>ISBN10</th>
+        <th>ISBN13</th>
+        <th>Year</th>
+        <th>Pages</th>
+        <th>Language</th>
+        <th>File</th>
+      </tr>
+    {% for book in books %}
+      <tr>
+        <td>{{ book.title }}</td>
+      <td>{% if book.author %}{{book.author}}{% else %}- {% endif %}</td>
+      <td>{% if book.isbn10 %}{{book.isbn10}}{% else %}- {% endif %}</td>
+      <td>{% if book.isbn13 %}{{book.isbn13}}{% else %}- {% endif %}</td>
+      <td>{% if book.year %}{{book.year}}{% else %}- {% endif %}</td>
+      <td>{% if book.pages %}{{book.pages}}{% else %}- {% endif %}</td>
+      <td>{% if book.language %}{{book.language}}{% else %}- {% endif %}</td>
+      <td>
+        <a href="Files/{{ book.file }}">Book</a></td>
+      </tr>
+    {% endfor %}
+    </table>
     
     <hr />
     <a href="/logout">Logout</a>

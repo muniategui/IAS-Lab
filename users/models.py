@@ -3,7 +3,7 @@ import uuid
 from django.db import models
 
 class User(AbstractUser):
-    email = models.EmailField(max_length=256,blank=False)
+    email = models.EmailField(max_length=256,blank=False,unique=True)
     uuidNormal = models.UUIDField(primary_key=False, default=uuid.uuid4, editable=False, unique=True)
     uuidAdmin = models.UUIDField(primary_key=False, default=uuid.uuid4, editable=False, unique=True)
     invite = models.UUIDField('Invite',primary_key=False, null=True,blank=False)
