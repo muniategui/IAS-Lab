@@ -152,3 +152,6 @@ AUTH_USER_MODEL = 'users.User'
 
 MEDIA_URL = '/Files/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'Files')
+
+SECRET_KEY=os.getenv("DEFF_PASSWORD")
+SALT=os.getenv("DEFF_SALT")
