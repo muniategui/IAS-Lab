@@ -25,7 +25,7 @@ class Book(models.Model):
         salt = bytes(settings.SALT.encode("utf-8")),
         iterations = 100000)
 
-        key = base64.urlsafe_b64encode(kdf.derive(bytes(settings.SECRET_KEY.encode("utf-8"))))
+        key = base64.urlsafe_b64encode(kdf.derive(bytes(settings.SECRET_KEY_FILES.encode("utf-8"))))
         f = Fernet(key)
         self.file.seek(0)
         out = io.BytesIO(f.encrypt(self.file.read()))
