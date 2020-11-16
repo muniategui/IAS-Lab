@@ -23,7 +23,7 @@ class Book(models.Model):
         algorithm = hashes.SHA256(),
         length = 32,
         salt = bytes(settings.SALT.encode("utf-8")),
-        iterations = 100000,)
+        iterations = 100000)
 
         key = base64.urlsafe_b64encode(kdf.derive(bytes(settings.SECRET_KEY.encode("utf-8"))))
         f = Fernet(key)
