@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'users',
     'books',
     'captcha',
-    'axes'
+    'axes',
+    'user_graph'
 ]
 
 MIDDLEWARE = [
