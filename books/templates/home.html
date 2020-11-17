@@ -18,12 +18,31 @@
 </head>
 
 <body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">Home</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item{% if nbar == 'upload' %} active {% endif %}">
+          {% if request.user.is_superuser or request.user.uploader %}<a class="nav-link" href="/upload">Upload</a>{% endif %}
+        </li>
+        <li class="nav-item{% if nbar == 'profile' %} active {% endif %}">
+          <a class="nav-link" href="/profile">Profile</a>
+        </li>
+        <li class="nav-item{% if nbar == 'logout' %} active {% endif %}">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+      </ul>
+
+    </div>
+  </nav>
+
+
   {{ block.super }}
     <div class="container col-md-8 py-2">
-      <a href="/profile">Profile</a>
-      {% if request.user.is_superuser or request.user.uploader %}<a href="/upload">Upload</a>{% endif %}
-      <h2>Home</h2>
-
+      
       <p>
           Hi <b>{{request.user.username}}</b>,
           You are loged in
@@ -77,83 +96,3 @@
       {% endif %}
     </div>
 </body>
-
-
-<!--
-<body>
-    <a href="/profile">Profile</a>
-    {% if request.user.is_superuser or request.user.uploader %}<a href="/upload">Upload</a>{% endif %}
-    <h2>Home</h2>
-
-    <p>
-        Hi <b>{{request.user.username}}</b>,
-        You are loged in
-    </p>
-    {% if not books %}
-        <p>No books!</p>
-    {% else %}
-    <table>
-      <tr>
-        <th>Title</th>
-        <th>Author</th>
-        <th>ISBN10</th>
-        <th>ISBN13</th>
-        <th>Year</th>
-        <th>Pages</th>
-        <th>Language</th>
-        <th>File</th>
-      </tr>
-    {% for book in books %}
-      <tr>
-        <td>{{ book.title }}</td>
-      <td>{% if book.author %}{{book.author}}{% else %}- {% endif %}</td>
-      <td>{% if book.isbn10 %}{{book.isbn10}}{% else %}- {% endif %}</td>
-      <td>{% if book.isbn13 %}{{book.isbn13}}{% else %}- {% endif %}</td>
-      <td>{% if book.year %}{{book.year}}{% else %}- {% endif %}</td>
-      <td>{% if book.pages %}{{book.pages}}{% else %}- {% endif %}</td>
-      <td>{% if book.language %}{{book.language}}{% else %}- {% endif %}</td>
-      <td>
-        <a href="Files/{{ book.file }}">Book</a>
-      </td>
-      {% if request.user.is_superuser %}
-      <td>
-         <form class="form" method="POST" action="/delete" onsubmit="return confirm('Do you want to delete this element?')">
-                                     {% csrf_token %}
-
-             <button name="bookID" value="{{ book.id }}" type="submit" class="btn btn-secondary btn-sm">
-               Delete
-            </button>
-         </form>
-      </td>
-      {% endif %}
-      </tr>
-    {% endfor %}
-    </table>
-    {% endif %}
-    <hr />
-    <a href="/logout">Logout</a>
-</body>
-</html>
--->
-
-
-<!--
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-</head>
-<body>
-<h2>Home</h2>
-
-<p>
-    Hi <b>{{request.user.username}}</b>,
-    You are loged in
-</p>
-
-<hr />
-<a href="/logout">Logout</a>
-</body>
-</html>
--->
