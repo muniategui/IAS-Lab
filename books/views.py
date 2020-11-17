@@ -1,10 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from books.forms import BookForm
 from books.models import Book
 from django.conf.urls import include, url
 from django.views.static import serve
 from django.conf import settings
+from django.http import FileResponse
+from books.models import Book
 
 # Create your views here.
 @login_required
@@ -26,5 +28,6 @@ def upload(request):
 
 
 @login_required
-def protected_serve(request, path, document_root=None, show_indexes=False):
-    return serve(request, path, document_root, show_indexes)
+def protected_serve(request, path, document_root=None):
+    obj = get_object_or_404(Book, file=path)
+    return FileResponse(open(document_root+'//'+path, 'rb'),as_attachment=False,filename=obj.OriginalName)

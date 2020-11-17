@@ -17,8 +17,12 @@ class Book(models.Model):
     pages = models.IntegerField(blank=True,null=True)
     language = models.CharField(max_length=64,blank=True)
     file = models.FileField(upload_to='Books/', max_length=256,validators=[validate_pdf])
+    OriginalName = models.CharField(max_length=256,blank=True)
 
     def save(self, *args, **kwargs):
+        
+        self.OriginalName=self.file.name
+
         kdf = PBKDF2HMAC(
         algorithm = hashes.SHA256(),
         length = 32,
