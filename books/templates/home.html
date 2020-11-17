@@ -58,27 +58,17 @@
                         <td>
                           <a href="Files/{{ book.file }}">Book</a>
                         </td>
-                        {% if request.user.is_superuser %}
-                        <td>
-                            <script type="text/javascript">
-                                  function clicked() {
-                                    if (confirm('Do you want to delete this element?')) {
-                                        true;
-                                    } else {
-                                        return false;
-                                    }
-                                  }
+                          {% if request.user.is_superuser %}
+                          <td>
+                             <form class="form" method="POST" action="/delete" onsubmit="return confirm('Do you want to delete this element?')">
+                                                         {% csrf_token %}
 
-                              </script>
-                          <form class="form" method="POST" action="/delete" onsubmit="clicked()">
-                                                      {% csrf_token %}
-
-                              <button name="bookID" value="{{ book.id }}" type="submit" class="btn btn-secondary btn-sm">
-                                Delete
-                              </button>
-                          </form>
-                        </td>
-                        {% endif %}
+                                 <button name="bookID" value="{{ book.id }}" type="submit" class="btn btn-secondary btn-sm">
+                                   Delete
+                                </button>
+                             </form>
+                          </td>
+                          {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>
@@ -127,17 +117,7 @@
       </td>
       {% if request.user.is_superuser %}
       <td>
-          <script type="text/javascript">
-                function clicked() {
-                   if (confirm('Do you want to delete this element?')) {
-                      true;
-                   } else {
-                       return false;
-                   }
-                }
-
-            </script>
-         <form class="form" method="POST" action="/delete" onsubmit="clicked()">
+         <form class="form" method="POST" action="/delete" onsubmit="return confirm('Do you want to delete this element?')">
                                      {% csrf_token %}
 
              <button name="bookID" value="{{ book.id }}" type="submit" class="btn btn-secondary btn-sm">
