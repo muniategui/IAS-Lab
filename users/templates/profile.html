@@ -13,6 +13,44 @@
 {#<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>#}
     <title>Profile</title>
 </head>
+
+<body>
+    <div style=" display: flex; align-items: center; justify-content: center; align-conten:center; min-height: 100%;min-height: 100vh;">
+        <div class="container col-md-7">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0">Profile</h2>
+                </div>
+                <div class="card-body">
+                    <p>
+                        Hi <b>{{request.user.username}}</b> <br />
+                        This is your information: <br />
+                        {% if request.user.uploader or request.user.is_superuser %}
+                        You are an uploader, uploading and downloading books is allowed for you!<br />
+                        {%  else %}
+                        You are not an uploader but you still can download books!<br />
+                        {%  endif %}
+                        Invite users with: {{ request.user.uuidNormal }}<br />
+                        {% if request.user.uploader or request.user.is_superuser%}
+                        Invite users with upload permission with: {{ request.user.uuidAdmin }}<br />
+                        {% endif %}
+                        You were invited by: {% if invitedBy %}{{ invitedBy.username }}{% else %} Noone (Created directly by admin) {% endif %}<br />
+                        <form class="form" method="POST">
+                        {{ form.as_p }}
+                        {% csrf_token %}
+                            <button type="submit" class="btn btn-default float-right" id="btnChangePassword">Change Password</button>
+                        </form>
+                    </p>
+
+                    <hr />
+                    <a href="/">Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<!--
 <body>
 
     <h2>Profile</h2>
@@ -41,7 +79,7 @@
     <a href="/">Home</a>
 </body>
 </html>
-
+-->
 <!--
 <!DOCTYPE html>
 <html lang="en">
