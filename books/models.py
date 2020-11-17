@@ -8,6 +8,7 @@ from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import InMemoryUploadedFile
 import base64
 import io
+import os
 class Book(models.Model):
     title = models.CharField(max_length=512)
     author = models.CharField(max_length=512, blank=True)
@@ -35,5 +36,12 @@ class Book(models.Model):
         out = io.BytesIO(f.encrypt(self.file.read()))
         self.file.file.file=out
         super(Book, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        try:
+            os.remove(self.file.path)
+        except:
+            pass
+        super(Book, self).delete(*args, **kwargs)
 
 

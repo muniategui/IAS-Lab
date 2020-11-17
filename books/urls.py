@@ -8,6 +8,7 @@ from django.conf.urls import url
 urlpatterns = [
     path('', views.home),
     path('upload', views.upload),
+    path('delete',views.delete),
     #url(r'^%s(?P<path>.*)$' % settings.MEDIA_URL[1:], views.protected_serve, {'document_root': settings.MEDIA_ROOT})
     path('%s<path:path>' % settings.MEDIA_URL[1:], views.protected_serve, {'document_root': settings.MEDIA_ROOT})
 ]

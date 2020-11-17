@@ -7,7 +7,15 @@ from django.views.static import serve
 from django.conf import settings
 from django.http import FileResponse
 from books.models import Book
-
+from books.classes import encrypter2
+from cryptography.fernet import Fernet
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from cryptography.hazmat.primitives import hashes
+from django.core.files.base import ContentFile
+from django.core.files.uploadedfile import InMemoryUploadedFile
+import base64
+from django.conf import settings
+import io
 # Create your views here.
 @login_required
 def home(request):
@@ -28,6 +36,24 @@ def upload(request):
 
 
 @login_required
+def delete(request):
+    if (not request.user.is_superuser):
+        return redirect(home)
+    if request.method == "POST":
+        Book.objects.get(id=request.POST['bookID']).delete()
+    return redirect(home)
+
+
+@login_required
 def protected_serve(request, path, document_root=None):
     obj = get_object_or_404(Book, file=path)
-    return FileResponse(open(document_root+'//'+path, 'rb'),as_attachment=False,filename=obj.OriginalName)
+    kdf = PBKDF2HMAC(
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=bytes(settings.SALT.encode("utf-8")),
+        iterations=100000)
+
+    key = base64.urlsafe_b64encode(kdf.derive(bytes(settings.SECRET_KEY_FILES.encode("utf-8"))))
+    f = Fernet(key)
+    stream = io.BytesIO(f.decrypt(open(document_root+'//'+path, 'rb').read()))
+    return FileResponse(stream, as_attachment=False, filename=obj.OriginalName)
