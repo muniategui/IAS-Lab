@@ -45,15 +45,20 @@ def delete(request):
 
 
 @login_required
-def protected_serve(request, path, document_root=None):
-    obj = get_object_or_404(Book, file=path)
-    kdf = PBKDF2HMAC(
-        algorithm=hashes.SHA256(),
-        length=32,
-        salt=bytes(settings.SALT.encode("utf-8")),
-        iterations=100000)
+def protected_serve(request, path, name, document_root=None):
+    if path == 'Books':
+        obj = get_object_or_404(Book, file=path+'/'+name)
+        kdf = PBKDF2HMAC(
+            algorithm=hashes.SHA256(),
+            length=32,
+            salt=bytes(settings.SALT.encode("utf-8")),
+            iterations=100000)
 
-    key = base64.urlsafe_b64encode(kdf.derive(bytes(settings.SECRET_KEY_FILES.encode("utf-8"))))
-    f = Fernet(key)
-    stream = io.BytesIO(f.decrypt(open(document_root+'//'+path, 'rb').read()))
-    return FileResponse(stream, as_attachment=False, filename=obj.OriginalName)
+        key = base64.urlsafe_b64encode(kdf.derive(bytes(settings.SECRET_KEY_FILES.encode("utf-8"))))
+        f = Fernet(key)
+        stream = io.BytesIO(f.decrypt(open(document_root+'//'+path+'//'+name, 'rb').read()))
+        return FileResponse(stream, as_attachment=False, filename=obj.OriginalName)
+    if path == 'user_graph.png':
+        if (not request.user.is_superuser):
+            return redirect(home)
+        return FileResponse(open(document_root+'//'+path,'rb'),as_attachment=False)

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from users.models import User
-from users.views import login
+from users.views import home
 from django.conf import settings
 
 import networkx as nx
@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 def user_graph(request):
 
     if(not request.user.is_superuser):
-        return redirect(login)
+        return redirect(home)
 
     # Graph creation
 

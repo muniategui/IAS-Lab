@@ -28,6 +28,10 @@
             <li class="nav-item{% if nbar == 'profile' %} active {% endif %}">
               <a class="nav-link" href="/profile">Profile</a>
             </li>
+          {% if request.user.is_superuser%}
+        <li class="nav-item{% if nbar == 'graph' %} active {% endif %}">
+         <a class="nav-link" href="/graph">Graph</a>
+        </li>{% endif %}
             <li class="nav-item{% if nbar == 'logout' %} active {% endif %}">
               <a class="nav-link" href="/logout">Logout</a>
             </li>
