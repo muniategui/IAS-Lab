@@ -160,6 +160,7 @@ $ python manage.py runserver
 - [x] Content encryption
 - [x] CAPTCHA
 - [x] Bruteforce prevention at login
+- [ ] Users graph (to detect malicious)
 
 # For noob developers (we have some)
 Get ready your user settings:
