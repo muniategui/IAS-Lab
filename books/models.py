@@ -8,6 +8,7 @@ from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import InMemoryUploadedFile
 import base64
 import io
+import os
 class Book(models.Model):
     title = models.CharField(max_length=512)
     author = models.CharField(max_length=512, blank=True)
@@ -17,19 +18,30 @@ class Book(models.Model):
     pages = models.IntegerField(blank=True,null=True)
     language = models.CharField(max_length=64,blank=True)
     file = models.FileField(upload_to='Books/', max_length=256,validators=[validate_pdf])
+    OriginalName = models.CharField(max_length=256,blank=True)
 
     def save(self, *args, **kwargs):
+        
+        self.OriginalName=self.file.name
+
         kdf = PBKDF2HMAC(
         algorithm = hashes.SHA256(),
         length = 32,
         salt = bytes(settings.SALT.encode("utf-8")),
-        iterations = 100000,)
+        iterations = 100000)
 
-        key = base64.urlsafe_b64encode(kdf.derive(bytes(settings.SECRET_KEY.encode("utf-8"))))
+        key = base64.urlsafe_b64encode(kdf.derive(bytes(settings.SECRET_KEY_FILES.encode("utf-8"))))
         f = Fernet(key)
         self.file.seek(0)
         out = io.BytesIO(f.encrypt(self.file.read()))
         self.file.file.file=out
         super(Book, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        try:
+            os.remove(self.file.path)
+        except:
+            pass
+        super(Book, self).delete(*args, **kwargs)
 
 

@@ -2,7 +2,7 @@ from django.core.exceptions import ValidationError
 from winmagic import magic
 def validate_pdf(value):
     mime=magic.from_buffer(value.file.read(2048),mime=True)
-    if value.size > 104857600:
+    if value.size > 20971520:
         raise ValidationError("The maximum file size is 100MB")
     elif mime!='application/pdf' and mime!='application/epub+zip':
         raise ValidationError("Not a valid file, it should be pdf or epub")

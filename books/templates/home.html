@@ -4,72 +4,95 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
-    <script src="{% static 'jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'jquery-3.5.1.min.js' %}"></script>
     <script src="{% static 'popper.min.js' %}"></script>
     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 {#<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">#}
-{#<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>#}
+{#<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>#}
 {#<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>#}
 {#<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>#}
     <title>Home</title>
+    <style>
+      body { background-color: #FFF4DB; }
+    </style>
 </head>
+
 <body>
-    <a href="/profile">Profile</a>
-    {% if request.user.is_superuser or request.user.uploader %}<a href="/upload">Upload</a>{% endif %}
-    <h2>Home</h2>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">Home</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item{% if nbar == 'upload' %} active {% endif %}">
+          {% if request.user.is_superuser or request.user.uploader %}<a class="nav-link" href="/upload">Upload</a>{% endif %}
+        </li>
+        <li class="nav-item{% if nbar == 'profile' %} active {% endif %}">
+          <a class="nav-link" href="/profile">Profile</a>
+        </li>
+        <li class="nav-item{% if nbar == 'logout' %} active {% endif %}">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+      </ul>
 
-    <p>
-        Hi <b>{{request.user.username}}</b>,
-        You are loged in
-    </p>
-    <table>
-      <tr>
-        <th>Title</th>
-        <th>Author</th>
-        <th>ISBN10</th>
-        <th>ISBN13</th>
-        <th>Year</th>
-        <th>Pages</th>
-        <th>Language</th>
-        <th>File</th>
-      </tr>
-    {% for book in books %}
-      <tr>
-        <td>{{ book.title }}</td>
-      <td>{% if book.author %}{{book.author}}{% else %}- {% endif %}</td>
-      <td>{% if book.isbn10 %}{{book.isbn10}}{% else %}- {% endif %}</td>
-      <td>{% if book.isbn13 %}{{book.isbn13}}{% else %}- {% endif %}</td>
-      <td>{% if book.year %}{{book.year}}{% else %}- {% endif %}</td>
-      <td>{% if book.pages %}{{book.pages}}{% else %}- {% endif %}</td>
-      <td>{% if book.language %}{{book.language}}{% else %}- {% endif %}</td>
-      <td>
-        <a href="Files/{{ book.file }}">Book</a></td>
-      </tr>
-    {% endfor %}
-    </table>
-    
-    <hr />
-    <a href="/logout">Logout</a>
+    </div>
+  </nav>
+
+
+  {{ block.super }}
+    <div class="container col-md-8 py-2">
+      
+      <p>
+          Hi <b>{{request.user.username}}</b>,
+          You are loged in
+      </p>
+      {% if not books %}
+          <p>No books!</p>
+      {% else %}
+      <div class="table-container">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col"> Title </th>
+                <th scope="col"> Author </th>
+                <th scope="col"> ISBN10 </th>
+                <th scope="col"> ISBN13 </th>
+                <th scope="col"> Year </th>
+                <th scope="col"> Pages </th>
+                <th scope="col"> Language </th>
+                <th scope="col"> File </th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                    <tr>
+                        <td> {{ book.title }} </td>
+                        <td>{% if book.author %}{{book.author}}{% else %}- {% endif %}</td>
+                        <td>{% if book.isbn10 %}{{book.isbn10}}{% else %}- {% endif %}</td>
+                        <td>{% if book.isbn13 %}{{book.isbn13}}{% else %}- {% endif %}</td>
+                        <td>{% if book.year %}{{book.year}}{% else %}- {% endif %}</td>
+                        <td>{% if book.pages %}{{book.pages}}{% else %}- {% endif %}</td>
+                        <td>{% if book.language %}{{book.language}}{% else %}- {% endif %}</td>
+                        <td>
+                          <a href="Files/{{ book.file }}">Book</a>
+                        </td>
+                          {% if request.user.is_superuser %}
+                          <td>
+                             <form class="form" method="POST" action="/delete" onsubmit="return confirm('Do you want to delete this element?')">
+                                                         {% csrf_token %}
+
+                                 <button name="bookID" value="{{ book.id }}" type="submit" class="btn btn-secondary btn-sm">
+                                   Delete
+                                </button>
+                             </form>
+                          </td>
+                          {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+      </div>
+      {% endif %}
+    </div>
 </body>
-</html>
-
-<!--
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-</head>
-<body>
-<h2>Home</h2>
-
-<p>
-    Hi <b>{{request.user.username}}</b>,
-    You are loged in
-</p>
-
-<hr />
-<a href="/logout">Logout</a>
-</body>
-</html>
--->

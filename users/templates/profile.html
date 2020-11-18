@@ -4,41 +4,70 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
-    <script src="{% static 'jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'jquery-3.5.1.min.js' %}"></script>
     <script src="{% static 'popper.min.js' %}"></script>
     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 {#<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">#}
-{#<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>#}
+{#<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>#}
 {#<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>#}
 {#<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>#}
     <title>Profile</title>
+    <style>
+        body { background-color: #FFF4DB; }
+      </style>
 </head>
+
 <body>
-
-    <h2>Profile</h2>
-
-    <p>
-        Hi <b>{{request.user.username}}</b> <br />
-        This is your information: <br />
-        {% if request.user.uploader or request.user.is_superuser %}
-        You are an uploader, uploading and downloading books is allowed for you!<br />
-        {%  else %}
-        You are not an uploader but you still can download books!<br />
-        {%  endif %}
-        Invite users with: {{ request.user.uuidNormal }}<br />
-        {% if request.user.uploader or request.user.is_superuser%}
-        Invite users with upload permission with: {{ request.user.uuidAdmin }}<br />
-        {% endif %}
-        You were invited by: {% if invitedBy %}{{ invitedBy.username }}{% else %} Noone (Created directly by admin) {% endif %}<br />
-        <form method="POST">
-        {{ form.as_p }}
-        {% csrf_token %}
-            <button type="submit">Change Password</button>
-        </form>
-    </p>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item{% if nbar == 'upload' %} active {% endif %}">
+              {% if request.user.is_superuser or request.user.uploader %}<a class="nav-link" href="/upload">Upload</a>{% endif %}
+            </li>
+            <li class="nav-item{% if nbar == 'logout' %} active {% endif %}">
+              <a class="nav-link" href="/logout">Logout</a>
+            </li>
+          </ul>
     
-    <hr />
-    <a href="/">Home</a>
+        </div>
+      </nav>
+
+
+
+    <div style=" display: flex; align-items: center; justify-content: center; align-conten:center; min-height: 100%;min-height: 100vh;">
+        <div class="container col-md-7">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0">Profile</h2>
+                </div>
+                <div class="card-body">
+                    <p>
+                        Hi <b>{{request.user.username}}</b> <br />
+                        This is your information: <br />
+                        {% if request.user.uploader or request.user.is_superuser %}
+                        You are an uploader, uploading and downloading books is allowed for you!<br />
+                        {%  else %}
+                        You are not an uploader but you still can download books!<br />
+                        {%  endif %}
+                        Invite users with: {{ request.user.uuidNormal }}<br />
+                        {% if request.user.uploader or request.user.is_superuser%}
+                        Invite users with upload permission with: {{ request.user.uuidAdmin }}<br />
+                        {% endif %}
+                        You were invited by: {% if invitedBy %}{{ invitedBy.username }}{% else %} Noone (Created directly by admin) {% endif %}<br />
+                        <form class="form" method="POST">
+                        {{ form.as_p }}
+                        {% csrf_token %}
+                            <button type="submit" class="btn btn-default float-right" id="btnChangePassword">Change Password</button>
+                        </form>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
 

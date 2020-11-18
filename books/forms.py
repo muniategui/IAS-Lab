@@ -15,6 +15,7 @@ class BookForm(ModelForm):
     class Meta:
         model = Book
         fields = '__all__'
+        exclude = ['OriginalName']
         widgets = {
              'year': forms.TextInput(),
              'pages': forms.TextInput(),
