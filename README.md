@@ -147,17 +147,17 @@ $ python manage.py runserver
 # Basic features checklist
 - [x] User registration
 - [x] User login
-- [ ] Register contents in the application (PDF)
-- [ ] Access control to contents
-- [ ] Manage access permissions to contents
+- [x] Register contents in the application (PDF)
+- [x] Access control to contents
+- [x] Manage access permissions to contents
 
 # Security features checklist
 - [x] Cross Site Scripting (XSS) protection
 - [x] DB injection protection
 - [x] Hashed passwords
-- [ ] Create and install a server certificate
+- [x] Create and install a server certificate
 - [x] Cross site request forgery (CSRF) protection
-- [ ] Content encryption
+- [x] Content encryption
 - [x] CAPTCHA
 - [x] Bruteforce prevention at login
 
