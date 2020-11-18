@@ -27,7 +27,7 @@ SECRET_KEY = 'vt)@i62k)uj$-y!3cjs-0fh4!s#k7&opb-+vl&6e@wnlpyfy6s'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ias.ericm.cat','127.0.0.1','.localhost']
 
 
 # Application definition
