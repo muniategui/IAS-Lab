@@ -44,7 +44,7 @@ plt.figure(figsize=(10,10))
 nx.draw_networkx_edges(DG, pos, arrowstyle="->", edge_color=edge_colors, width=2, arrowsize=20, alpha=0.6)
 #nx.draw_networkx_edge_labels(DG, pos, edge_labels=edge_labels)
 nx.draw_networkx_nodes(DG, pos, node_size=500)
-nx.draw_networkx_labels(DG, right_pos,font_size=14)
+nx.draw_networkx_labels(DG, pos,font_size=14)
 plt.savefig("user_graph.png")
 
 
