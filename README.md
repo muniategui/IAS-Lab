@@ -16,6 +16,7 @@ Implementation of a website with *security by design* for the laboratory project
 - [Proposed Modifications](#Proposed-modifications)
   - [DDoS Protection](#DDoS-protection)
   - [Malicious users graph](#Malicious-users-graph)
+- [Conclusions and future work](#Conclusions-and-future-work)
 - [Install](#Install)
 - [Interesting URLs](#Interesting-URLs)
 - [Basic features checklist](#Basic-features-checklist)
@@ -108,6 +109,12 @@ All new users register in the system with an invitation code that belongs to an 
 
 This allows us to have a clear view of the status of our platform and to apply extra security measures. For example, we can detect that a user is inviting users that behave incorrectly or that always end up banned. After detecting this, we can revoke the invitation key of that user.
 
+# Conclusions and future work
+
+We archieved all the proposed basic and security features and deployed the application in https://ias.ericm.cat. The file encryption was the most challenging feature because Django by default process some headers and serves the stream with an offset. This was overcome by setting the stream at byte 0.
+
+As future work we should configure the Web App to serve the static files using Nginx and not Django. Also, the file encryption and decryption should be done in chunks and not in memory to avoid running out of it.
+
 # Install
 To start running the server we reccomend the following steps:
 1. Create a **virtual environment** 
@@ -160,7 +167,7 @@ $ python manage.py runserver
 - [x] Content encryption
 - [x] CAPTCHA
 - [x] Bruteforce prevention at login
-- [ ] Users graph (to detect malicious)
+- [x] Users graph (to detect malicious)
 
 # For noob developers (we have some)
 Get ready your user settings:
